@@ -1,10 +1,17 @@
-from selenium import webdriver
+from app.app import Application
 import pytest
 
 
-@pytest.fixture(scope="function")
-def wd():
-    driver = webdriver.Chrome()
-    driver.implicitly_wait(20)
-    yield driver
-    driver.quit()
+@pytest.fixture()
+def appf(request):
+    fixture = Application()
+    yield fixture
+    fixture.destroy()
+
+'''
+@pytest.fixture()
+def appf(request):
+    fixture = AppFixture()
+    request.addfinalizer(fixture.destroy)
+    return fixture
+'''
