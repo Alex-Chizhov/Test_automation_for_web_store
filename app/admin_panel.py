@@ -37,6 +37,16 @@ class AdminPanelHelper:
 
         wd.find_element_by_xpath("//button[@value='Save']").click()
 
+    def remove_last_product(self):
+        wd = self.app.wd
+
+        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        checkboxes = wd.find_elements_by_xpath("//tbody//input")
+        checkboxes[-1].click()
+        wd.find_element_by_xpath("//button[@value='Delete']").click()
+        alert = wd.switch_to.alert
+        alert.accept()
+
     def get_product_count_from_db(self):
         mydb = mysql.connector.connect(
             host="localhost",
