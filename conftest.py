@@ -2,7 +2,7 @@ from app.app import Application
 import pytest
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def appf(request):
     fixture = Application()
     yield fixture
