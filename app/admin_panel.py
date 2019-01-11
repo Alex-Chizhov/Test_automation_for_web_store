@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 import mysql.connector
+import re
 
 
 class AdminPanelHelper:
@@ -62,6 +63,14 @@ class AdminPanelHelper:
         wd.find_element_by_xpath("//button[@value='Delete']").click()
         alert = wd.switch_to.alert
         alert.accept()
+
+    def get_product_count_from_catalog(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        count = wd.find_element_by_xpath("//td[@colspan='5']")
+        count = count.text
+        number = re.search(r'Products: (.)', count)
+        return int(number.group(1))
 
     def get_product_count_from_db(self):
         mydb = mysql.connector.connect(

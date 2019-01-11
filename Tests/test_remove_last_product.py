@@ -1,9 +1,17 @@
-import time
+from Parameter_Object.product import Product
 
 def test_remove_last_product(appf):
-    product_count_before = appf.admin_panel.get_product_count_from_db()
+    count = appf.admin_panel.get_product_count_from_catalog()
+    if count == 0:
+        appf.admin_panel.add_new_product(Product(
+            name='test_name',
+            date_from='01.01.2018',
+            date_to='01.01.2020',
+            short_description='short_description',
+            description='description',
+            purchase_price=100
+        ))
     appf.admin_panel.remove_last_product()
-    time.sleep(1)
-    product_count_after = appf.admin_panel.get_product_count_from_db()
+    count_after = appf.admin_panel.get_product_count_from_catalog()
 
-    assert product_count_before  == product_count_after + 1
+    assert count == count_after or count -1 == count_after
