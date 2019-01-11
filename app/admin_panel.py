@@ -37,6 +37,21 @@ class AdminPanelHelper:
 
         wd.find_element_by_xpath("//button[@value='Save']").click()
 
+    def modify_last_product_name(self, product):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        pencils = wd.find_elements_by_xpath("//i[@class='fa fa-pencil']")
+        pencils[-1].click()
+        name = wd.find_element_by_xpath("//input[@name='name[en]']")
+        name.clear()
+        name.send_keys(product.name)
+        wd.find_element_by_xpath("//button[@value='Save']").click()
+
+    def get_element_with_product_name_from_catalog_table(self, product_name):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        return wd.find_element_by_xpath(f"//*[.='{product_name}']").text
+
     def remove_last_product(self):
         wd = self.app.wd
 
