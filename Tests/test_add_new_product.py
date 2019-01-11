@@ -3,7 +3,6 @@ from Parameter_Object.product import Product
 
 def test_add_new_product(appf):
     product_count_before = appf.admin_panel.get_product_count_from_db()
-    appf.session.login_to_admin_panel(username='admin', password='admin')
     appf.admin_panel.add_new_product(Product(
         name='test_name',
         date_from='01.01.2018',
@@ -12,7 +11,6 @@ def test_add_new_product(appf):
         description='description',
         purchase_price=100
     ))
-    appf.session.logout_from_admin_panel()
     product_count_after = appf.admin_panel.get_product_count_from_db()
 
     assert product_count_before + 1 == product_count_after

@@ -10,6 +10,7 @@ class AdminPanelHelper:
 
     def get_count_admin_menu(self):
         wd = self.app.wd
+        wd.get('http://localhost/litecart/admin/')
         menu_items = wd.find_elements_by_xpath("//span[@class='name']")
         return len(menu_items)
 
