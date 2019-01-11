@@ -69,7 +69,7 @@ class AdminPanelHelper:
         wd.find_element_by_xpath("//span[text()='Catalog']").click()
         count = wd.find_element_by_xpath("//td[@colspan='5']")
         count = count.text
-        number = re.search(r'Products: (.)', count)
+        number = re.search(r'Products: (.+)', count)
         return int(number.group(1))
 
     def get_product_count_from_db(self):
