@@ -15,10 +15,15 @@ class AdminPanelHelper:
         menu_items = wd.find_elements_by_xpath("//span[@class='name']")
         return len(menu_items)
 
+    def go_to_catalog_page(self):
+        wd = self.app.wd
+        if not wd.current_url.endswith("/admin/?app=catalog&doc=catalog"):
+            wd.get("http://localhost/litecart/admin/?app=catalog&doc=catalog")
+
     def add_new_product(self, product):
         wd = self.app.wd
 
-        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        self.go_to_catalog_page()
         wd.find_element_by_xpath("(//a[@class='btn btn-default'])[2]").click()
         wd.find_element_by_xpath("//input[@name='name[en]']").send_keys(product.name)
         wd.find_element_by_xpath("//label[@class='btn btn-default']").click()
@@ -41,7 +46,7 @@ class AdminPanelHelper:
 
     def modify_last_product_name(self, product):
         wd = self.app.wd
-        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        self.go_to_catalog_page()
         pencils = wd.find_elements_by_xpath("//i[@class='fa fa-pencil']")
         pencils[-1].click()
         name = wd.find_element_by_xpath("//input[@name='name[en]']")
@@ -51,13 +56,13 @@ class AdminPanelHelper:
 
     def get_element_with_product_name_from_catalog_table(self, product_name):
         wd = self.app.wd
-        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        self.go_to_catalog_page()
         return wd.find_element_by_xpath(f"//*[.='{product_name}']").text
 
     def remove_last_product(self):
         wd = self.app.wd
 
-        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        self.go_to_catalog_page()
         checkboxes = wd.find_elements_by_xpath("//tbody//input")
         checkboxes[-1].click()
         wd.find_element_by_xpath("//button[@value='Delete']").click()
@@ -66,7 +71,7 @@ class AdminPanelHelper:
 
     def get_product_count_from_catalog(self):
         wd = self.app.wd
-        wd.find_element_by_xpath("//span[text()='Catalog']").click()
+        self.go_to_catalog_page()
         count = wd.find_element_by_xpath("//td[@colspan='5']")
         count = count.text
         number = re.search(r'Products: (.+)', count)
