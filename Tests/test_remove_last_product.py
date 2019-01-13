@@ -11,7 +11,8 @@ def test_remove_last_product(appf):
             description='description',
             purchase_price=100
         ))
+        count += 1
     appf.admin_panel.remove_last_product()
     count_after = appf.admin_panel.get_product_count_from_catalog()
 
-    assert count == count_after or count -1 == count_after
+    assert count -1 == count_after
