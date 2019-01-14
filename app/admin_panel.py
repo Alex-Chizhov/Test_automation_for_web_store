@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 import mysql.connector
 import re
+import random
 
 
 class AdminPanelHelper:
@@ -61,10 +62,19 @@ class AdminPanelHelper:
 
     def remove_last_product(self):
         wd = self.app.wd
-
         self.go_to_catalog_page()
         checkboxes = wd.find_elements_by_xpath("//tbody//input")
         checkboxes[-1].click()
+        wd.find_element_by_xpath("//button[@value='Delete']").click()
+        alert = wd.switch_to.alert
+        alert.accept()
+
+    def remove_random_product(self):
+        wd = self.app.wd
+        self.go_to_catalog_page()
+        checkboxes = wd.find_elements_by_xpath("//tbody//input")
+        index = random.randint(1, len(checkboxes)-1)
+        checkboxes[index].click()
         wd.find_element_by_xpath("//button[@value='Delete']").click()
         alert = wd.switch_to.alert
         alert.accept()
