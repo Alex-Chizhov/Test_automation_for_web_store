@@ -3,7 +3,7 @@ import pytest
 
 
 @pytest.fixture(scope='session')
-def appf_admin(request):
+def appf_admin():
     fixture = Application()
     fixture.session.login_to_admin_panel(username='admin', password='admin')
     yield fixture
@@ -11,13 +11,13 @@ def appf_admin(request):
     fixture.destroy()
 
 @pytest.fixture(scope='session')
-def appf_new_customer(request):
+def appf_new_customer():
     fixture = Application()
     yield fixture
     fixture.destroy()
 
 @pytest.fixture(scope='session')
-def appf_customer(request):
+def appf_customer():
     fixture = Application()
     fixture.session.user_login(email='nick20@mail.com', password='password')
     yield fixture
