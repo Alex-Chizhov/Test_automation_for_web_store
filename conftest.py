@@ -1,4 +1,4 @@
-from app.app import Application
+from App.app import Application
 import pytest
 
 
