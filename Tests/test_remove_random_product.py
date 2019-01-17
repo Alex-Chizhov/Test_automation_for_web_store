@@ -1,6 +1,6 @@
 from Parameter_Object.product import Product
 
-def test_remove_last_product(appf_admin):
+def test_remove_random_product(appf_admin):
     count = appf_admin.admin_panel.get_product_count_from_catalog()
     if count == 0:
         appf_admin.admin_panel.add_new_product(Product(

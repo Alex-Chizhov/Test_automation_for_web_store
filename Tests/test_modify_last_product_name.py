@@ -1,6 +1,6 @@
 from Parameter_Object.product import Product
 
-def test_remove_last_product(appf_admin):
+def test_modify_product_name(appf_admin):
     appf_admin.admin_panel.modify_last_product_name(
         Product(
             name='new_test_name'
