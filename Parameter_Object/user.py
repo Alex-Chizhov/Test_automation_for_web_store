@@ -11,4 +11,4 @@ class User:
 
     def __repr__(self):
         return f"tax_id={self.tax_id}, company={self.company}, firstname={self.firstname}, " \
-               f"lastname={self.lastname}, email={self.email},password={self.password}"
+               f"lastname={self.lastname}, email={self.email}, password={self.password}"
