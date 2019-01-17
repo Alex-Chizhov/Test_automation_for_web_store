@@ -72,6 +72,7 @@ class AdminPanelHelper:
     def remove_random_product(self):
         wd = self.app.wd
         self.go_to_catalog_page()
+        wd.refresh()
         checkboxes = wd.find_elements_by_xpath("//tbody//input")
         index = random.randint(1, len(checkboxes)-1)
         checkboxes[index].click()
@@ -82,6 +83,7 @@ class AdminPanelHelper:
     def get_product_count_from_catalog(self):
         wd = self.app.wd
         self.go_to_catalog_page()
+        wd.refresh()
         count = wd.find_element_by_xpath("//td[@colspan='5']")
         count = count.text
         number = re.search(r'Products: (.+)', count)
