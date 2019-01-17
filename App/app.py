@@ -5,10 +5,17 @@ from App.user_account import UserAccount
 
 class Application:
 
-    def __init__(self):
-        self.options = webdriver.ChromeOptions()
-        self.options.add_extension('..\\Extensions\\ChroPath_0_3_4_0.crx')
-        self.wd = webdriver.Chrome(options=self.options)
+    def __init__(self, browser):
+        if browser == 'chrome':
+            self.options = webdriver.ChromeOptions()
+            self.options.add_extension('..\\Extensions\\ChroPath_0_3_4_0.crx')
+            self.wd = webdriver.Chrome(options=self.options)
+        elif browser == 'firefox':
+            self.wd = webdriver.Firefox()
+        elif browser == 'Ie':
+            self.wd = webdriver.Ie()
+        else:
+            raise ValueError(f"Unrecognized browser {browser}")
         self.wd.implicitly_wait(20)
         self.session = SessionHelper(self)
         self.admin_panel = AdminPanelHelper(self)
