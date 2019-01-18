@@ -1,4 +1,4 @@
-from test_data.create_account import testdata
+from Tests_data.create_account import testdata
 import pytest
 
 
