@@ -1,6 +1,7 @@
 from App.app import Application
 import pytest
 import json
+import os
 
 
 def pytest_addoption(parser):
@@ -13,7 +14,7 @@ conf_data = None
 def appf_admin(request):
     global conf_data
     browser = request.config.getoption('--browser')
-    conf_file = request.config.getoption('--config')
+    conf_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), request.config.getoption('--config'))
     if conf_data == None:
         with open(conf_file) as f:
             conf_data = json.load(f)
@@ -27,7 +28,7 @@ def appf_admin(request):
 def appf_new_customer(request):
     global conf_data
     browser = request.config.getoption('--browser')
-    conf_file = request.config.getoption('--config')
+    conf_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), request.config.getoption('--config'))
     if conf_data == None:
         with open(conf_file) as f:
             conf_data = json.load(f)
@@ -39,7 +40,7 @@ def appf_new_customer(request):
 def appf_customer(request):
     global conf_data
     browser = request.config.getoption('--browser')
-    conf_file = request.config.getoption('--config')
+    conf_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), request.config.getoption('--config'))
     if conf_data == None:
         with open(conf_file) as f:
             conf_data = json.load(f)
