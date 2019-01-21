@@ -2,7 +2,7 @@ from App.app import Application
 import pytest
 import json
 import os
-
+import importlib
 
 def pytest_addoption(parser):
     parser.addoption('--browser', action='store', default='chrome')
@@ -50,10 +50,12 @@ def appf_customer(request):
     fixture.session.user_logout()
     fixture.destroy()
 
-'''
-@pytest.fixture()
-def appf(request):
-    fixture = AppFixture()
-    request.addfinalizer(fixture.destroy)
-    return fixture
-'''
+def pytest_generate_tests(metafunc):
+    # parameters from test_function, first is fixture and other parameters
+    for fixture in metafunc.fixturenames:
+        if fixture == 'test_data_create_account':
+            testdata = load_from_module(fixture[10:])
+            metafunc.parametrize(fixture, testdata, ids=[repr(i) for i in testdata])
+
+def load_from_module(module):
+    return importlib.import_module(f"Tests_data.{module}").testdata
