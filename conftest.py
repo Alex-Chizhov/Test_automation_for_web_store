@@ -3,6 +3,7 @@ import pytest
 import json
 import os
 import importlib
+import jsonpickle
 
 def pytest_addoption(parser):
     parser.addoption('--browser', action='store', default='chrome')
@@ -56,6 +57,13 @@ def pytest_generate_tests(metafunc):
         if fixture == 'test_data_create_account':
             testdata = load_from_module(fixture[10:])
             metafunc.parametrize(fixture, testdata, ids=[repr(i) for i in testdata])
+        if fixture == 'json_users':
+            testdata = load_from_json(fixture[5:])
+            metafunc.parametrize(fixture, testdata, ids=[repr(i) for i in testdata])
 
 def load_from_module(module):
     return importlib.import_module(f"Tests_data.{module}").testdata
+
+def load_from_json(file):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f"Tests_data\\{file}.json")) as f:
+        return jsonpickle.decode(f.read())

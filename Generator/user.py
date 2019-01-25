@@ -13,8 +13,8 @@ except getopt.GetoptError as err:
     getopt.usage()
     sys.exit(2)
 
-data_amount = 3
-file = 'users2.json'
+data_amount = 5
+file = 'users.json'
 
 for option, argument  in opts:
     if option in ['-d', '--amount_of_data']:
