@@ -2,7 +2,7 @@ from Parameter_Object.user import User
 import random
 import string
 import os
-import json
+import jsonpickle
 import getopt
 import sys
 
@@ -39,4 +39,5 @@ User(tax_id=random_digits(6), company=random_string(10), firstname=random_string
 
 data_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\Tests_data\\", file)
 with open(data_file, 'w') as f:
-    f.write(json.dumps(testdata, default=lambda i: i.__dict__, indent=2))
+    jsonpickle.set_encoder_options("json", indent=2)
+    f.write(jsonpickle.encode(testdata))
