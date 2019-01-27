@@ -1,7 +1,16 @@
 {
-  "admin_name": "admin",
-  "admin_password": "admin",
+  "web": {
+    "admin_name": "admin",
+    "admin_password": "admin",
+    "user_email": "nick20@mail.com",
+    "user_password": "password"
+  },
 
-  "user_email": "nick20@mail.com",
-  "user_password": "password"
+  "db": {
+    "host": "localhost",
+    "database": "litecart",
+    "user": "root",
+    "passwd": "root"
+  }
 }
+

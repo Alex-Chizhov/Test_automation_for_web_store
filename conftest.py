@@ -1,4 +1,5 @@
 from App.app import Application
+from App.db import DbFixture
 import pytest
 import json
 import os
@@ -11,45 +12,53 @@ def pytest_addoption(parser):
 
 conf_data = None
 
-@pytest.fixture(scope='session')
-def appf_admin(request):
+def load_config(file):
     global conf_data
-    browser = request.config.getoption('--browser')
-    conf_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), request.config.getoption('--config'))
+    conf_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), file)
     if conf_data == None:
         with open(conf_file) as f:
             conf_data = json.load(f)
+    return conf_data
+
+@pytest.fixture(scope='session')
+def appf_admin(request):
+    browser = request.config.getoption('--browser')
+    web_config = load_config(request.config.getoption('--config'))['web']
     fixture = Application(browser)
-    fixture.session.login_to_admin_panel(username=conf_data["admin_name"], password=conf_data["admin_password"])
+    fixture.session.login_to_admin_panel(username=web_config["admin_name"], password=web_config["admin_password"])
     yield fixture
     fixture.session.logout_from_admin_panel()
     fixture.destroy()
 
 @pytest.fixture(scope='session')
 def appf_new_customer(request):
-    global conf_data
     browser = request.config.getoption('--browser')
-    conf_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), request.config.getoption('--config'))
-    if conf_data == None:
-        with open(conf_file) as f:
-            conf_data = json.load(f)
+    web_config = load_config(request.config.getoption('--config'))['web']
     fixture = Application(browser)
     yield fixture
     fixture.destroy()
 
 @pytest.fixture(scope='session')
 def appf_customer(request):
-    global conf_data
     browser = request.config.getoption('--browser')
-    conf_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), request.config.getoption('--config'))
-    if conf_data == None:
-        with open(conf_file) as f:
-            conf_data = json.load(f)
+    web_config = load_config(request.config.getoption('--config'))['web']
     fixture = Application(browser)
-    fixture.session.user_login(email=conf_data["user_email"], password=conf_data["user_password"])
+    fixture.session.user_login(email=web_config["user_email"], password=web_config["user_password"])
     yield fixture
     fixture.session.user_logout()
     fixture.destroy()
+
+@pytest.fixture(scope='session')
+def db(request):
+    db_config = load_config(request.config.getoption('--config'))['db']
+    dbfixture = DbFixture(
+        host=db_config["host"],
+        database=db_config["database"],
+        user=db_config["user"],
+        passwd=db_config['passwd']
+    )
+    yield dbfixture
+    dbfixture.destroy()
 
 def pytest_generate_tests(metafunc):
     # parameters from test_function, first is fixture and other parameters
