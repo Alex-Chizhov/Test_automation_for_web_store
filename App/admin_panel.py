@@ -1,4 +1,5 @@
 from selenium.webdriver.support.ui import Select
+from Parameter_Object.user import User
 import mysql.connector
 import re
 import random
@@ -20,6 +21,11 @@ class AdminPanelHelper:
         wd = self.app.wd
         if not wd.current_url.endswith("/admin/?app=catalog&doc=catalog"):
             wd.get("http://localhost/litecart/admin/?app=catalog&doc=catalog")
+
+    def go_to_customers_page(self):
+        wd = self.app.wd
+        if not wd.current_url.endswith("/admin/?app=customers&doc=customers"):
+            wd.get("http://localhost/litecart/admin/?app=customers&doc=customers")
 
     def add_new_product(self, product):
         wd = self.app.wd
@@ -101,3 +107,27 @@ class AdminPanelHelper:
         myresult = mycursor.fetchall()
 
         return len(myresult)
+
+    def get_list_customers(self):
+        wd = self.app.wd
+        self.go_to_customers_page()
+        wd.refresh()
+        customers_list = []
+        while True:
+            rows = wd.find_elements_by_xpath("//tbody//tr")
+            count = 1
+            for row in rows:
+                email = wd.find_element_by_xpath(f"//tbody/tr[{count}]/td[4]").text
+                name = wd.find_element_by_xpath(f"//tbody/tr[{count}]/td[5]").text
+                splited_name = name.split(' ')
+                firstname = splited_name[0]
+                lastname = splited_name[1]
+                company = wd.find_element_by_xpath(f"//tbody/tr[{count}]/td[6]").text
+                count += 1
+                customers_list.append(User(company=company, firstname=firstname, lastname=lastname, email=email))
+            try:
+                wd.find_element_by_xpath("//a[.='Next']").click()
+                count = 1
+            except:
+                break
+        return customers_list
