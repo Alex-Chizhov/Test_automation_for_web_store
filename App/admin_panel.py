@@ -73,6 +73,7 @@ class AdminPanelHelper:
         wd.find_element_by_xpath("//button[@value='Delete']").click()
         alert = wd.switch_to.alert
         alert.accept()
+        wd.refresh()
 
     def remove_random_product(self):
         wd = self.app.wd
@@ -84,6 +85,7 @@ class AdminPanelHelper:
         wd.find_element_by_xpath("//button[@value='Delete']").click()
         alert = wd.switch_to.alert
         alert.accept()
+        wd.refresh()
 
     def get_product_count_from_catalog(self):
         wd = self.app.wd

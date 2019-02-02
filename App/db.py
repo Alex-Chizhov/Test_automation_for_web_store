@@ -28,7 +28,7 @@ class DbFixture:
 
         return list_with_objs
 
-    def get_product_count_from_db(self):
+    def get_product_count(self):
         cursor = self.connection.cursor()
         cursor.execute("SELECT id FROM lc_products")
         result = cursor.fetchall()
