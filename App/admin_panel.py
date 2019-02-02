@@ -1,6 +1,5 @@
 from selenium.webdriver.support.ui import Select
 from Parameter_Object.user import User
-import mysql.connector
 import re
 import random
 
@@ -95,18 +94,6 @@ class AdminPanelHelper:
         number = re.search(r'Products: (.+)', count)
         return int(number.group(1))
 
-    def get_product_count_from_db(self):
-        mydb = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            passwd="root",
-            database="litecart"
-        )
-        mycursor = mydb.cursor()
-        mycursor.execute("SELECT id FROM lc_products")
-        myresult = mycursor.fetchall()
-
-        return len(myresult)
 
     def get_list_customers(self):
         wd = self.app.wd
