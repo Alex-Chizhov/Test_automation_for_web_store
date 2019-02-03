@@ -9,6 +9,7 @@ import jsonpickle
 def pytest_addoption(parser):
     parser.addoption('--browser', action='store', default='chrome')
     parser.addoption('--config', action='store', default='config.json')
+    parser.addoption("--check_ui", action="store_true")
 
 conf_data = None
 
@@ -59,6 +60,11 @@ def db(request):
     )
     yield dbfixture
     dbfixture.destroy()
+
+@pytest.fixture()
+def check_ui(request):
+    return request.config.getoption("--check_ui")
+
 
 def pytest_generate_tests(metafunc):
     # parameters from test_function, first is fixture and other parameters
