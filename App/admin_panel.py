@@ -44,7 +44,7 @@ class AdminPanelHelper:
         wd.find_element_by_xpath("//textarea[@name='description[en]']").send_keys(product.description)
 
         wd.find_element_by_xpath("//a[contains(text(),'Prices')]").click()
-        wd.find_element_by_xpath("//input[@name='purchase_price']").send_keys(product.purchase_price)
+        wd.find_element_by_xpath("//input[@name='prices[USD]']").send_keys(product.USD)
         select = Select(wd.find_element_by_xpath("//select[@name='purchase_price_currency_code']"))
         select.select_by_value("USD")
 
