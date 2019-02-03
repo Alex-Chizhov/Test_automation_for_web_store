@@ -9,7 +9,7 @@ def test_add_new_product(appf_admin, db):
         date_to='01.01.2020',
         short_description='short_description',
         description='description',
-        purchase_price=100
+        USD=100
     ))
     product_count_after = db.get_product_count()
 

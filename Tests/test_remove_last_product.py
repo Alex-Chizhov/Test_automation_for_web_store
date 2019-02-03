@@ -9,7 +9,7 @@ def test_remove_last_product(appf_admin, db):
             date_to='01.01.2020',
             short_description='short_description',
             description='description',
-            purchase_price=100
+            USD=100
         ))
         count += 1
     appf_admin.admin_panel.remove_last_product()
