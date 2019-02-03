@@ -1,5 +1,6 @@
 from selenium.webdriver.support.ui import Select
 from Parameter_Object.user import User
+from Parameter_Object.product import Product
 import re
 import random
 
@@ -34,8 +35,6 @@ class AdminPanelHelper:
         wd.find_element_by_xpath("//input[@name='name[en]']").send_keys(product.name)
         wd.find_element_by_xpath("//label[@class='btn btn-default']").click()
         wd.find_element_by_xpath("//input[@value='1-3']").click()
-        wd.find_element_by_xpath("//input[@name='date_valid_from']").send_keys(product.date_from)
-        wd.find_element_by_xpath("//input[@name='date_valid_to']").send_keys(product.date_to)
         select = Select(wd.find_element_by_xpath("//select[@name='manufacturer_id']"))
         select.select_by_value("1")
 
@@ -120,3 +119,25 @@ class AdminPanelHelper:
             except:
                 break
         return customers_list
+
+    def get_product_list(self):
+        wd = self.app.wd
+        self.go_to_catalog_page()
+        product_list = []
+        count = 0
+        while True:
+            try:
+                wd.find_elements_by_xpath("//i[@class='fa fa-pencil']")[count].click()
+            except:
+                break
+            name = wd.find_element_by_xpath("//input[@name='name[en]']").get_attribute('value')
+            wd.find_element_by_xpath("//a[contains(text(),'Information')]").click()
+            short_description = wd.find_element_by_xpath("//input[@name='short_description[en]']").get_attribute('value')
+            description = wd.find_element_by_xpath("//textarea[@name='description[en]']").get_attribute('value')
+            wd.find_element_by_xpath("//a[contains(text(),'Prices')]").click()
+            USD = wd.find_element_by_xpath("//input[@name='prices[USD]']").get_attribute('value')
+            wd.find_element_by_xpath("//button[@value='Cancel']").click()
+
+            product_list.append(Product(name=name,short_description=short_description,description=description, USD=USD))
+            count += 1
+        return product_list
