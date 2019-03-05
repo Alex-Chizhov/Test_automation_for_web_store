@@ -9,8 +9,8 @@ class Application:
     def __init__(self, browser):
         if browser == 'chrome':
             self.options = webdriver.ChromeOptions()
-            self.options.add_extension(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\Extensions\\ChroPath_0_3_4_0.crx", ))
-            self.wd = webdriver.Chrome(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\Drivers\\chromedriver.exe", ), options=self.options)
+            self.options.add_extension(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\Extensions\\ChroPath_0_3_4_0.crx"))
+            self.wd = webdriver.Chrome(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..\\Drivers\\chromedriver.exe"), options=self.options)
         elif browser == 'firefox':
             self.wd = webdriver.Firefox()
         elif browser == 'Ie':
