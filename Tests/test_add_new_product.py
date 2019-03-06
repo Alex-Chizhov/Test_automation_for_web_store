@@ -3,7 +3,8 @@ from Tests_data.product import testdata
 from Parameter_Object.product import Product
 import allure
 
-
+@allure.severity('Blocker')
+@allure.feature('Add new product')
 @pytest.mark.parametrize('product', testdata, ids=[repr(i) for i in testdata])
 def test_add_new_product(appf_admin, db, check_ui, product):
     with allure.step("Get list of products from DB"):
