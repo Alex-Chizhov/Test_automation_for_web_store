@@ -4,7 +4,7 @@ import allure
 
 @allure.feature('Checkout')
 @allure.severity('blocker')
-def test_add_products_to_cart(appf_new_customer):
+def test_Checkout(appf_new_customer):
     appf_new_customer.shop.add_products_to_cart_from_home_page()
     appf_new_customer.shop.checkout(
         User(
