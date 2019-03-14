@@ -12,4 +12,4 @@ def random_digits(maxlen):
 
 testdata = [
 Product(name=random_string(10), short_description=random_string(10), description=random_string(100),
-        USD=random_digits(3)) for i in range(1)]
+        USD=random_digits(3)) for i in range(10)]
