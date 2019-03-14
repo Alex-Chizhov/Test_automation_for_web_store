@@ -26,5 +26,6 @@ class SessionHelper:
 
     def user_logout(self):
         wd = self.app.wd
+        wd.get("http://localhost/litecart/")
         wd.find_element_by_xpath("//li[@class='account dropdown']//a[@class='dropdown-toggle']").click()
         wd.find_element_by_xpath("//ul[@class='dropdown-menu']//li[3]").click()
