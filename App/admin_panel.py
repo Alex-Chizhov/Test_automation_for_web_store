@@ -47,6 +47,9 @@ class AdminPanelHelper:
         select = Select(wd.find_element_by_xpath("//select[@name='purchase_price_currency_code']"))
         select.select_by_value("USD")
 
+        wd.find_element_by_xpath("//a[contains(text(),'Stock')]").click()
+        wd.find_element_by_xpath("//input[@name='quantity']").send_keys(500)
+
         wd.find_element_by_xpath("//button[@value='Save']").click()
 
     def modify_last_product_name(self, product):
