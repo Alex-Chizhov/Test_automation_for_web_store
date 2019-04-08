@@ -32,7 +32,7 @@ def random_digits(maxlen):
 
 testdata = [
 User(tax_id=random_digits(6), company=random_string(10), firstname=random_string(10),
-     lastname=random_string(6), email=random_string(10)+'@mail.com', password=random_string(8))
+     lastname=random_string(6), email=random_string(10)+'@mail.com', password=random_string(8), address1='address1')
     for i in range(data_amount)
 ]
 
