@@ -93,3 +93,20 @@ class ShopHelper:
     def get_message_from_order_success_page(self):
         wd = self.app.wd
         return wd.find_element_by_xpath("//h1").text
+
+    def increase_quantity_item_in_cart(self, amount):
+        wd = self.app.wd
+        time.sleep(1)
+        self.go_to_checkout_page()
+        quantity = wd.find_element_by_xpath("//tr//input")
+        amount_before = quantity.get_attribute('value')
+        amount_after = int(amount_before) + int(amount)
+        quantity.clear()
+        quantity.send_keys(amount_after)
+        wd.find_element_by_xpath("//i[contains(@class, 'refresh')]").click()
+
+    def get_quantity_item_in_cart(self):
+        wd = self.app.wd
+        self.go_to_checkout_page()
+        quantity = wd.find_element_by_xpath("//tr//input").get_attribute('value')
+        return int(quantity)
