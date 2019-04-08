@@ -21,3 +21,5 @@ def test_Checkout(appf_new_customer):
                 phone='+1 406-896-9680',
                 postcode='105043'
              ))
+        with allure.step("Check that message contains string 'successfully completed!'"):
+            assert appf_new_customer.shop.get_message_from_order_success_page().__contains__("successfully completed!")

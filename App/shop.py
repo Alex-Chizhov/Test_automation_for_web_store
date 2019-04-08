@@ -89,3 +89,7 @@ class ShopHelper:
         wd.find_element_by_xpath("//button[@name='confirm_order']").click()
         wait = WebDriverWait(wd, 10)
         wait.until(EC.url_contains('order_success'))
+
+    def get_message_from_order_success_page(self):
+        wd = self.app.wd
+        return wd.find_element_by_xpath("//h1").text
