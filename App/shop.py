@@ -4,6 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import random
 import time
+import re
 
 
 class ShopHelper:
@@ -110,3 +111,39 @@ class ShopHelper:
         self.go_to_checkout_page()
         quantity = wd.find_element_by_xpath("//tr//input").get_attribute('value')
         return int(quantity)
+
+    def add_product_multiple_times_to_cart(self, times=2):
+        wd = self.app.wd
+        self.go_to_home_page()
+        product = wd.find_element_by_xpath("//div[@class='image-wrapper']")
+        product.click()
+        popup_window = wd.find_element_by_xpath("//div[@class='featherlight-content']")
+        wait = WebDriverWait(wd, 10)
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@name='add_cart_product']")))
+        add_to_cart_button = wd.find_element_by_xpath("//button[@name='add_cart_product']")
+        for i in range(times):
+            add_to_cart_button.click()
+            wait.until(EC.invisibility_of_element((By.XPATH, "//div[@id='animated-cart-item']")))
+        wd.find_element_by_xpath("//div[@aria-label='Close']").click()
+        wait.until(EC.staleness_of(popup_window))
+
+    def get_sum_in_cart_from_header(self):
+        wd = self.app.wd
+        self.go_to_home_page()
+        sum = wd.find_element_by_xpath("//div[@id='cart']//span[@class='formatted_value']").text
+        clean_sum = re.sub('\D', '', sum)
+        return int(clean_sum)
+
+    def get_price_first_product_from_checkout_page(self):
+        wd = self.app.wd
+        self.go_to_checkout_page()
+        price = wd.find_element_by_xpath("//td[3]").text
+        clean_price = re.sub('\D', '', price)
+        return int(clean_price)
+
+    def get_sum_in_cart_from_checkout_page(self):
+        wd = self.app.wd
+        self.go_to_checkout_page()
+        price = wd.find_element_by_xpath("//td[5]").text
+        clean_price = re.sub('\D', '', price)
+        return int(clean_price)
