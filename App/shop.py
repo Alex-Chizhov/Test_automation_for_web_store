@@ -147,3 +147,8 @@ class ShopHelper:
         price = wd.find_element_by_xpath("//td[5]").text
         clean_price = re.sub('\D', '', price)
         return int(clean_price)
+
+    def get_title_of_product_from_product_page(self):
+        wd = self.app.wd
+        title = wd.find_element_by_xpath("//h1[@class='title']").text
+        return title
