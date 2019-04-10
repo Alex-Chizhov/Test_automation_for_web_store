@@ -152,3 +152,8 @@ class ShopHelper:
         wd = self.app.wd
         title = wd.find_element_by_xpath("//h1[@class='title']").text
         return title
+
+    def get_number_popular_product_on_home_page(self):
+        wd = self.app.wd
+        products = wd.find_elements_by_xpath("//div[@id='box-popular-products']//div[contains(@class, 'products')]/div")
+        return len(products)
