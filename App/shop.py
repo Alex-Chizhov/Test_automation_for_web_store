@@ -157,3 +157,37 @@ class ShopHelper:
         wd = self.app.wd
         products = wd.find_elements_by_xpath("//div[@id='box-popular-products']//div[contains(@class, 'products')]/div")
         return len(products)
+
+    def get_filtering_products_by_price(self):
+        wd = self.app.wd
+        wd.get("http://localhost/litecart/acme-corp-m-1/")
+        wd.find_element_by_xpath("//span[.='Price']").click()
+        prices = []
+        while True:
+            list_prices_obj = wd.find_elements_by_xpath("//span[@class='price']")
+            for i in list_prices_obj:
+                prices.append(int(re.sub('\D', '', i.text)))
+            try:
+                wd.find_element_by_xpath("//a[.='Next']").click()
+                wait = WebDriverWait(wd, 5)
+                wait.until(EC.staleness_of(list_prices_obj[0]))
+            except:
+                break
+        return prices
+
+    def get_filtering_products_by_name(self):
+        wd = self.app.wd
+        wd.get("http://localhost/litecart/acme-corp-m-1/")
+        wd.find_element_by_xpath("//span[.='Name']").click()
+        names = []
+        while True:
+            list_prices_obj = wd.find_elements_by_xpath("//div[@class='name']")
+            for i in list_prices_obj:
+                names.append(i.text)
+            try:
+                wd.find_element_by_xpath("//a[.='Next']").click()
+                wait = WebDriverWait(wd, 5)
+                wait.until(EC.staleness_of(list_prices_obj[0]))
+            except:
+                break
+        return names
