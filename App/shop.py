@@ -14,13 +14,13 @@ class ShopHelper:
 
     def go_to_home_page(self):
         wd = self.app.wd
-        if not wd.current_url.endswith("/litecart/"):
-            wd.get(f"http://{self.app.domain}/litecart")
+        if not wd.current_url.endswith(f"{self.app.domain}"):
+            wd.get(f"http://{self.app.domain}")
 
     def go_to_checkout_page(self):
         wd = self.app.wd
-        if not wd.current_url.endswith("/checkout/"):
-            wd.get(f"http://{self.app.domain}/litecart/checkout")
+        if not wd.current_url.endswith("/checkout"):
+            wd.get(f"http://{self.app.domain}/checkout")
 
     def search_product(self, product_name):
         wd = self.app.wd
@@ -61,18 +61,19 @@ class ShopHelper:
             wait = WebDriverWait(wd, 10)
             wait.until(EC.staleness_of(button))
 
-    def add_products_to_cart_from_home_page(self, amount=5):
+    def add_products_to_cart_from_home_page(self, amount=1):
         wd = self.app.wd
         self.go_to_home_page()
+        wait = WebDriverWait(wd, 10)
         for i in range(amount):
             products = wd.find_elements_by_xpath("//div[@id='box-popular-products']//div[contains(@class,'col-xs-6')]")
             products[random.randint(0, len(products)-1)].click()
             popup_window = wd.find_element_by_xpath("//div[@class='featherlight-content']")
-            wait = WebDriverWait(wd, 10)
             wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@name='add_cart_product']")))
             wd.find_element_by_xpath("//button[@name='add_cart_product']").click()
             wd.find_element_by_xpath("//div[@aria-label='Close']").click()
             wait.until(EC.staleness_of(popup_window))
+        wait.until(EC.text_to_be_present_in_element((By.XPATH, "//span[@class='quantity']"), str(amount)))
 
     def checkout(self, user):
         wd = self.app.wd
@@ -97,8 +98,9 @@ class ShopHelper:
 
     def increase_quantity_item_in_cart(self, amount):
         wd = self.app.wd
-        time.sleep(1)
         self.go_to_checkout_page()
+        wait = WebDriverWait(wd, 10)
+        wait.until(EC.presence_of_element_located((By.XPATH, "//button[@name='confirm_order']")))
         quantity = wd.find_element_by_xpath("//tr//input")
         amount_before = quantity.get_attribute('value')
         amount_after = int(amount_before) + int(amount)
@@ -155,12 +157,13 @@ class ShopHelper:
 
     def get_number_popular_product_on_home_page(self):
         wd = self.app.wd
+        self.go_to_home_page()
         products = wd.find_elements_by_xpath("//div[@id='box-popular-products']//div[contains(@class, 'products')]/div")
         return len(products)
 
     def get_filtering_products_by_price(self):
         wd = self.app.wd
-        wd.get(f"http://{self.app.domain}/litecart/acme-corp-m-1/")
+        wd.get(f"http://{self.app.domain}/acme-corp-m-1/")
         wd.find_element_by_xpath("//span[.='Price']").click()
         prices = []
         while True:
@@ -177,7 +180,7 @@ class ShopHelper:
 
     def get_filtering_products_by_name(self):
         wd = self.app.wd
-        wd.get(f"http://{self.app.domain}/litecart/acme-corp-m-1/")
+        wd.get(f"http://{self.app.domain}/acme-corp-m-1/")
         wd.find_element_by_xpath("//span[.='Name']").click()
         names = []
         while True:
