@@ -22,17 +22,28 @@ for option, argument  in opts:
     elif option in ['-f', '--file']:
         file = argument
 
-def random_string(maxlen):
+def random_string(minlen, maxlen):
     symbol = string.ascii_letters + string.digits
-    return ''.join([random.choice(symbol) for i in range(random.randrange(1,maxlen))])
+    return ''.join([random.choice(symbol) for i in range(random.randrange(minlen, maxlen))])
 
-def random_digits(maxlen):
+def random_digits(minlen, maxlen):
     symbol = string.digits
-    return ''.join([random.choice(symbol) for i in range(random.randrange(1,maxlen))])
+    return ''.join([random.choice(symbol) for i in range(random.randrange(minlen, maxlen))])
 
 testdata = [
-User(tax_id=random_digits(6), company=random_string(10), firstname=random_string(10),
-     lastname=random_string(6), email=random_string(10)+'@mail.com', password=random_string(8), address1='address1')
+User(
+    tax_id=random_digits(6, 7),
+    company=random_string(5, 10),
+    firstname=random_string(5, 10),
+    lastname=random_string(5, 10),
+    email=random_string(5, 10)+'@mail.com',
+    password=random_string(8, 10),
+    address1=random_string(10, 20)+random_string(2, 6),
+    city=random_string(5, 10),
+    phone='+'+random_digits(8,11),
+    postcode=random_digits(6, 7)
+    )
+
     for i in range(data_amount)
 ]
 
