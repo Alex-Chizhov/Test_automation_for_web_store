@@ -6,7 +6,7 @@ class UserAccount:
 
     def create_account(self, user):
         wd = self.app.wd
-        wd.get("http://localhost/litecart/create_account")
+        wd.get(f"http://{self.app.domain}/litecart/create_account")
         wd.find_element_by_xpath("//input[@name='tax_id']").send_keys(user.tax_id)
         wd.find_element_by_xpath("//input[@name='company']").send_keys(user.company)
         wd.find_element_by_xpath("//input[@name='firstname']").send_keys(user.firstname)
@@ -25,6 +25,6 @@ class UserAccount:
 
     def get_username_from_hp(self):
         wd = self.app.wd
-        wd.get("http://localhost/litecart")
+        wd.get(f"http://{self.app.domain}/litecart")
         username = wd.find_element_by_xpath("//li[@class='account dropdown']//a[@class='dropdown-toggle']").text
         return username

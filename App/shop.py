@@ -15,12 +15,12 @@ class ShopHelper:
     def go_to_home_page(self):
         wd = self.app.wd
         if not wd.current_url.endswith("/litecart/"):
-            wd.get("http://localhost/litecart")
+            wd.get(f"http://{self.app.domain}/litecart")
 
     def go_to_checkout_page(self):
         wd = self.app.wd
         if not wd.current_url.endswith("/checkout/"):
-            wd.get("http://localhost/litecart/checkout")
+            wd.get(f"http://{self.app.domain}/litecart/checkout")
 
     def search_product(self, product_name):
         wd = self.app.wd
@@ -160,7 +160,7 @@ class ShopHelper:
 
     def get_filtering_products_by_price(self):
         wd = self.app.wd
-        wd.get("http://localhost/litecart/acme-corp-m-1/")
+        wd.get(f"http://{self.app.domain}/litecart/acme-corp-m-1/")
         wd.find_element_by_xpath("//span[.='Price']").click()
         prices = []
         while True:
@@ -177,7 +177,7 @@ class ShopHelper:
 
     def get_filtering_products_by_name(self):
         wd = self.app.wd
-        wd.get("http://localhost/litecart/acme-corp-m-1/")
+        wd.get(f"http://{self.app.domain}/litecart/acme-corp-m-1/")
         wd.find_element_by_xpath("//span[.='Name']").click()
         names = []
         while True:

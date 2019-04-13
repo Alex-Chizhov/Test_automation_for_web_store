@@ -10,22 +10,21 @@ class AdminPanelHelper:
     def __init__(self, application):
         self.app = application
 
-
     def get_count_admin_menu(self):
         wd = self.app.wd
-        wd.get('http://localhost/litecart/admin/')
+        wd.get(f'http://{self.app.domain}/litecart/admin/')
         menu_items = wd.find_elements_by_xpath("//span[@class='name']")
         return len(menu_items)
 
     def go_to_catalog_page(self):
         wd = self.app.wd
         if not wd.current_url.endswith("/admin/?app=catalog&doc=catalog"):
-            wd.get("http://localhost/litecart/admin/?app=catalog&doc=catalog")
+            wd.get(f"http://{self.app.domain}/litecart/admin/?app=catalog&doc=catalog")
 
     def go_to_customers_page(self):
         wd = self.app.wd
         if not wd.current_url.endswith("/admin/?app=customers&doc=customers"):
-            wd.get("http://localhost/litecart/admin/?app=customers&doc=customers")
+            wd.get(f"http://{self.app.domain}/litecart/admin/?app=customers&doc=customers")
 
     def add_new_product(self, product):
         wd = self.app.wd

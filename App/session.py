@@ -5,7 +5,7 @@ class SessionHelper:
 
     def login_to_admin_panel(self, password, username):
         wd = self.app.wd
-        wd.get("http://localhost/litecart/admin/login.php")
+        wd.get(f"http://{self.app.domain}/litecart/admin/login.php")
         wd.find_element_by_xpath("//input[@placeholder='Username']").send_keys(username)
         wd.find_element_by_xpath("//input[@placeholder='Password']").send_keys(password)
         wd.find_element_by_xpath("//button[@value='Login']").click()
@@ -18,7 +18,7 @@ class SessionHelper:
 
     def user_login(self, email, password):
         wd = self.app.wd
-        wd.get("http://localhost/litecart/")
+        wd.get(f"http://{self.app.domain}/litecart/")
         wd.find_element_by_xpath("//li[@class='account dropdown']//a[@class='dropdown-toggle']").click()
         wd.find_element_by_xpath("//input[@placeholder='Email Address']").send_keys(email)
         wd.find_element_by_xpath("//input[@placeholder='Password']").send_keys(password)
@@ -26,6 +26,6 @@ class SessionHelper:
 
     def user_logout(self):
         wd = self.app.wd
-        wd.get("http://localhost/litecart/")
+        wd.get(f"http://{self.app.domain}/litecart/")
         wd.find_element_by_xpath("//li[@class='account dropdown']//a[@class='dropdown-toggle']").click()
         wd.find_element_by_xpath("//ul[@class='dropdown-menu']//li[3]").click()
