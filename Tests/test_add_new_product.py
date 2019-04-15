@@ -5,12 +5,18 @@ import allure
 
 @allure.severity('Blocker')
 @allure.feature('Add new product')
-@pytest.mark.parametrize('product', testdata, ids=[repr(i) for i in testdata])
-def test_add_new_product(appf_admin, db, check_ui, product):
+def test_add_new_product(appf_admin, db, check_ui):
     with allure.step("Get list of products from DB"):
         products_before = db.get_product_list()
-    with allure.step(f"Add product {product} in admin panel"):
-        appf_admin.admin_panel.add_new_product(product)
+    with allure.step(f"Add product in admin panel"):
+        appf_admin.admin_panel.add_new_product(
+            Product(
+                name = 'Product name',
+                short_description = 'Short description',
+                description = 'Description',
+                USD = '78',
+                )
+            )
     with allure.step("Get list of products from DB again"):
         product_after = db.get_product_list()
     with allure.step("Comparison the length of the old products list and new one"):
