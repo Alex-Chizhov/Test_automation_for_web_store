@@ -4,3 +4,4 @@ jsonpickle
 mysql-connector
 lxml
 allure-pytest
+pytest-parallel
