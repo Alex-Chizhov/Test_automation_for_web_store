@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import Select
 from Parameter_Object.user import User
 from Parameter_Object.product import Product
+from selenium.webdriver.common.keys import Keys
 import re
 import random
 
@@ -18,12 +19,12 @@ class AdminPanelHelper:
 
     def go_to_catalog_page(self):
         wd = self.app.wd
-        if not wd.current_url.endswith("/admin/?app=catalog&doc=catalog"):
+        if not wd.current_url.__contains__("/admin/?app=catalog"):
             wd.get(f"http://{self.app.domain}/admin/?app=catalog&doc=catalog")
 
     def go_to_customers_page(self):
         wd = self.app.wd
-        if not wd.current_url.endswith("/admin/?app=customers&doc=customers"):
+        if not wd.current_url.__contains__("/admin/?app=customers"):
             wd.get(f"http://{self.app.domain}/admin/?app=customers&doc=customers")
 
     def add_new_product(self, product):
@@ -143,3 +144,17 @@ class AdminPanelHelper:
             product_list.append(Product(name=name,short_description=short_description,description=description, USD=USD))
             count += 1
         return product_list
+
+    def find_product_in_catalog_by_name(self, name):
+        wd = self.app.wd
+        self.go_to_catalog_page()
+        search_input = wd.find_element_by_xpath("//main//input[@type='search']")
+        search_input.clear()
+        search_input.send_keys(name + Keys.ENTER)
+
+
+    def get_count_product_row_from_catalog(self):
+        wd = self.app.wd
+        self.go_to_catalog_page()
+        rows = wd.find_elements_by_xpath("//tbody//tr")
+        return len(rows)
